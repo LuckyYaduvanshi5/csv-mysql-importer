@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>CSV to MySQL Importer - Free Online Tool | Import CSV Files to MySQL Database</title>
+    <meta name="description" content="Free online CSV to MySQL importer tool. Upload CSV files and import them to MySQL database with automatic table creation, error handling, and real-time progress tracking. No technical skills required.">
+    <meta name="keywords" content="CSV to MySQL, import CSV, MySQL database, CSV importer, database tool, data migration, CSV upload, MySQL converter, free tool">
+    <meta name="author" content="Data Community Tools">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="CSV to MySQL Importer - Free Online Tool">
+    <meta property="og:description" content="Import CSV files to MySQL database with automatic table creation and error handling. Free, fast, and easy to use.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png') }}">
+    <meta property="og:url" content="https://your-domain.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="CSV to MySQL Importer">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CSV to MySQL Importer - Free Online Tool">
+    <meta name="twitter:description" content="Import CSV files to MySQL database with automatic table creation and error handling.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/twitter-card.png') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#4CAF50">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://your-domain.com">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <!-- External CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CSV to MySQL Importer",
+        "description": "Free online tool to import CSV files to MySQL database with automatic table creation and error handling",
+        "url": "https://your-domain.com",
+        "applicationCategory": "DatabaseTool",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "Data Community Tools"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-database"></i> CSV to MySQL Importer</h1>
+            <p>Import your CSV files to MySQL database with beautiful progress tracking</p>
+        </header>
+
+        <div class="steps">
+            <div class="step active" id="step1">
+                <div class="step-number">1</div>
+                <span>Database Connection</span>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-number">2</div>
+                <span>Upload CSV Files</span>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-number">3</div>
+                <span>Import Process</span>
+            </div>
+        </div>
+
+        <!-- Step 1: Database Configuration -->
+        <div class="card" id="database-config">
+            <div class="card-header">
+                <h2><i class="fas fa-server"></i> Database Configuration</h2>
+            </div>
+            <div class="card-body">
+                <form id="db-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="host">Host</label>
+                            <input type="text" id="host" value="localhost" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user">Username</label>
+                            <input type="text" id="user" value="root" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="database">Database</label>
+                            <input type="text" id="database" placeholder="database_name" required>
+                        </div>
+                    </div>
+                    <button type="button" id="test-connection" class="btn btn-secondary">
+                        <i class="fas fa-plug"></i> Test Connection
+                    </button>
+                    <button type="button" id="next-step1" class="btn btn-primary" disabled>
+                        Next Step <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Step 2: File Upload -->
+        <div class="card hidden" id="file-upload">
+            <div class="card-header">
+                <h2><i class="fas fa-upload"></i> Upload CSV Files</h2>
+            </div>
+            <div class="card-body">
+                <div class="upload-zone" id="upload-zone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag and drop CSV files here or click to browse</p>
+                    <input type="file" id="file-input" multiple accept=".csv" hidden>
+                </div>
+                <div class="file-list" id="file-list"></div>
+                <div class="form-actions">
+                    <button type="button" id="back-step1" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button type="button" id="start-import" class="btn btn-success" disabled>
+                        <i class="fas fa-play"></i> Start Import
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Import Progress -->
+        <div class="card hidden" id="import-progress">
+            <div class="card-header">
+                <h2><i class="fas fa-cog fa-spin"></i> Import Progress</h2>
+            </div>
+            <div class="card-body">
+                <div class="progress-container">
+                    <div class="overall-progress">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="overall-progress"></div>
+                        </div>
+                        <div class="progress-text" id="overall-text">0 / 0 files</div>
+                    </div>
+                </div>
+                <div class="file-progress-list" id="file-progress-list"></div>
+                <div class="import-summary hidden" id="import-summary">
+                    <h3>Import Summary</h3>
+                    <div class="summary-stats">
+                        <div class="stat success">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="success-count">0</span>
+                            <label>Successful</label>
+                        </div>
+                        <div class="stat error">
+                            <i class="fas fa-times-circle"></i>
+                            <span id="error-count">0</span>
+                            <label>Failed</label>
+                        </div>
+                        <div class="stat total">
+                            <i class="fas fa-files"></i>
+                            <span id="total-count">0</span>
+                            <label>Total</label>
+                        </div>
+                    </div>
+                    <button type="button" id="new-import" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Import
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Made with ❤️ for the data community</p>
+            <div class="footer-links">
+                <a href="https://github.com/LuckyYaduvanshi5/csv-mysql-importer" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="#privacy" onclick="showPrivacyPolicy()">Privacy Policy</a>
+                <a href="#terms" onclick="showTerms()">Terms of Use</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('privacy-modal')">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p>Your data privacy is important to us. This tool processes your CSV files locally and does not store any personal data.</p>
+            <ul>
+                <li>CSV files are temporarily stored during processing and deleted after import</li>
+                <li>Database credentials are only used for the import session</li>
+                <li>No personal information is collected or stored</li>
+                <li>No cookies are used for tracking</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div id="terms-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('terms-modal')">&times;</span>
+            <h2>Terms of Use</h2>
+            <p>By using this tool, you agree to the following terms:</p>
+            <ul>
+                <li>This tool is provided "as is" without warranties</li>
+                <li>Users are responsible for their own data backup</li>
+                <li>The tool is free for personal and commercial use</li>
+                <li>Please report any issues on GitHub</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

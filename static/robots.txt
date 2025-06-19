@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /uploads/
+Disallow: /admin/
+
+Sitemap: https://csv2sql.miniai.online/sitemap.xml
